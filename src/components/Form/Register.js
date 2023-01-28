@@ -24,7 +24,7 @@ const Register = () => {
         })
             .then(res => res.json())
             .then(imgData => {
-                console.log(imgData)
+                // console.log(imgData)
                 if (imgData.success) {
 
                     const newUser ={
@@ -38,7 +38,6 @@ const Register = () => {
                     console.log(newUser);
 
                    
-
 
 
                 }
