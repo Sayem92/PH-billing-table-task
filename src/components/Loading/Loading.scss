@@ -1,6 +1,7 @@
 .scanner span {
     color: transparent;
-    font-size: 1.4rem;
+    font-size: 2.5rem;
+    font-weight: 600;
     position: relative;
     overflow: hidden;
   }
@@ -12,9 +13,9 @@
     left: 0;
     width: 0;
     height: 100%;
-    border-right: 4px solid #17FEFF;
+    border-right: 4px solid #fbff17;
     overflow: hidden;
-    color: #17FEFF;
+    color: #02ff24;
     animation: load91371 2s linear infinite;
   }
   

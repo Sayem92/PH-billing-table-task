@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 
 
@@ -11,7 +11,7 @@ const Register = () => {
     const [signUpLoading, setSignUpLoading] = useState(false);
     const imageHostKey = process.env.REACT_APP_IMGBB_key;
 
-
+    const navigate = useNavigate()
 
 
     // user signup---------
@@ -38,7 +38,7 @@ const Register = () => {
                         password: data.password
                     }
 
-                    fetch(`http://localhost:5000/users`, {
+                    fetch(`http://localhost:5000/registration`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(newUser)
@@ -46,7 +46,7 @@ const Register = () => {
                     })
                         .then(response => response.json())
                         .then(data => {
-                            console.log(data)
+                            // console.log(data)
                             if (data.matchedCount) {
                                 toast.error("Already have an account")
                                 setSignUpLoading(false);
@@ -54,10 +54,10 @@ const Register = () => {
                                 reset();
 
                             }
-                            else{
+                            else {
                                 toast.success("User created account successfully")
                                 setSignUpLoading(false)
-                                // navigate korba 
+                                navigate('/billingTable')
 
                             }
                         })

@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import BillingTable from "../BillingTable/BillingTable";
 import Login from "../Form/Login";
 import Register from "../Form/Register";
 import Home from "../Home/Home";
@@ -24,6 +25,10 @@ export const routes = createBrowserRouter([{
         {
             path:'/login',
             element:<Login></Login>
+        },
+        {
+            path:'/billingTable',
+            element:<BillingTable></BillingTable>
         },
     ]
 }])
