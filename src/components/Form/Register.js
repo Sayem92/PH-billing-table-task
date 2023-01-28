@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import Loading from '../Loading/Loading';
 
 
 const Register = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const [signUpError, setSignUpError] = useState('');
+    const [signUpLoading, setSignUpLoading] = useState(false);
     const imageHostKey = process.env.REACT_APP_IMGBB_key;
 
 
@@ -13,6 +16,7 @@ const Register = () => {
 
     // user signup---------
     const handleSignUp = data => {
+        setSignUpLoading(true)
 
         const image = data.image[0]
         const formData = new FormData();
@@ -27,31 +31,52 @@ const Register = () => {
                 // console.log(imgData)
                 if (imgData.success) {
 
-                    const newUser ={
-                        name:data.name,
-                        email:data.email,
+                    const newUser = {
+                        name: data.name,
+                        email: data.email,
                         photoURL: imgData.data.display_url,
-                        password:data.password
-                        
+                        password: data.password
                     }
 
-                    console.log(newUser);
+                    fetch(`http://localhost:5000/users`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(newUser)
 
-                   
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data)
+                            if (data.matchedCount) {
+                                toast.error("Already have an account")
+                                setSignUpLoading(false);
+                                setSignUpError('Already have an account')
+                                reset();
+
+                            }
+                            else{
+                                toast.success("User created account successfully")
+                                setSignUpLoading(false)
+                                // navigate korba 
+
+                            }
+                        })
+
 
 
                 }
 
             })
 
-
     };
 
 
+    if (signUpLoading) {
+        return <Loading></Loading>
+    };
 
 
     return (
-
         <div className='h-[800px] flex justify-center items-center '>
             <div className='w-96 p-7 shadow-xl mx-2 rounded-md'>
                 <h2 className='text-4xl py-4 font-bold text-center text-yellow-400'>Sign Up</h2>
