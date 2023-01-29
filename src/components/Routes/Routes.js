@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import BillingTable from "../BillingTable/BillingTable";
+import BillingTable from "../BillingDashboard/BillingTable/BillingTable";
 import Login from "../Form/Login";
 import Register from "../Form/Register";
 import Home from "../Home/Home";

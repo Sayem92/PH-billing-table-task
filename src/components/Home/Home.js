@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
     return (
@@ -9,7 +10,10 @@ const Home = () => {
                     <div className="max-w-md ">
                         <h1 className="mb-10 text-5xl font-bold">Welcome to <span className='text-green-500'>The Online Billing Page</span> </h1>
                         <p className="mb-5"> The main purpose of billing is to help the company keep track of all the sale transactions that have taken place.</p>
+                        
+                        <Link to='/billingTable'>
                        <button className="btn btn-warning hover:bg-yellow-500">Get Started</button>
+                        </Link>
                     </div>
                 </div>
             </div>
