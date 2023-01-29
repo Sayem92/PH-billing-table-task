@@ -3,16 +3,18 @@ import React from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Loading from '../../Loading/Loading';
+import AddBillingModal from '../AddBillingModal/AddBillingModal';
 
 
 const BillingTable = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [bill, setBill] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [modal, setModal] = useState(null);
 
 
 
-    const { data: allBillList = [], isLoading } = useQuery({
+    const { data: allBillList = [], isLoading, refetch } = useQuery({
         queryKey: [''],
         queryFn: async () => {
             try {
@@ -85,7 +87,8 @@ const BillingTable = () => {
                         </div>
                     </form>
                 </div>
-                <button className='btn btn-success'>add new bill</button>
+                <label htmlFor="add-billing-modal"
+                    onClick={() => setModal('open')} className='btn btn-success'>add new bill</label>
             </div>
 
             {allBillList?.length && !bill.length ?
@@ -156,7 +159,9 @@ const BillingTable = () => {
 
             }
 
-
+            {
+                modal === 'open' && <AddBillingModal refetch={refetch} setModal={setModal}></AddBillingModal>
+            }
         </div>
     );
 };
