@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import Loading from '../../Loading/Loading';
 import AddBillingModal from '../AddBillingModal/AddBillingModal';
+import BillingTableRow from './BillingTableRow';
 
 
 const BillingTable = () => {
@@ -57,21 +58,21 @@ const BillingTable = () => {
     };
 
 
-    const handleDeletingBill = _id => {
-        const agree = window.confirm('Are you sure delete this bill !!!')
-        if (agree) {
-            fetch(`http://localhost:5000/delete-billing/${_id}`, {
-                method: "DELETE"
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.deletedCount > 0) {
-                        toast.success(`Deleted successfully`)
-                        refetch();
-                    }
-                })
-        }
-    };
+    // const handleDeletingBill = _id => {
+    //     const agree = window.confirm('Are you sure delete this bill !!!')
+    //     if (agree) {
+    //         fetch(`http://localhost:5000/delete-billing/${_id}`, {
+    //             method: "DELETE"
+    //         })
+    //             .then(res => res.json())
+    //             .then(data => {
+    //                 if (data.deletedCount > 0) {
+    //                     toast.success(`Deleted successfully`)
+    //                     refetch();
+    //                 }
+    //             })
+    //     }
+    // };
 
     if (isLoading || loading) {
         return <Loading></Loading>
@@ -127,22 +128,8 @@ const BillingTable = () => {
                         <tbody>
 
                             {
-                                allBillList?.map((billInfo) => <tr key={billInfo._id} className='hover'>
-                                    <td>{billInfo._id}</td>
-                                    <td>{billInfo.name}</td>
-                                    <td>{billInfo.email}</td>
-                                    <td>{billInfo.phone}</td>
-                                    <td>{billInfo.amount}</td>
-                                    <td>
-                                        <Link to={`/update-billing/${billInfo._id}`}>
-                                            <button className='btn btn-info btn-sm mr-2'>edit</button>
-                                        </Link>
-
-                                        <button
-                                            onClick={() => handleDeletingBill(billInfo._id)}
-                                            className='btn btn-error btn-sm'>delete</button>
-                                    </td>
-                                </tr>)
+                                allBillList?.map((billInfo) => 
+                                <BillingTableRow key={billInfo._id} billInfo={billInfo} refetch={refetch}></BillingTableRow>)
                             }
 
                         </tbody>
@@ -164,21 +151,7 @@ const BillingTable = () => {
                         <tbody>
 
                             {
-                                bill?.map((billInfo) => <tr key={billInfo._id} className='hover'>
-                                    <td>{billInfo._id}</td>
-                                    <td>{billInfo.name}</td>
-                                    <td>{billInfo.email}</td>
-                                    <td>{billInfo.phone}</td>
-                                    <td>{billInfo.amount}</td>
-                                    <td>
-                                        <Link to={`/update-billing/${billInfo._id}`}>
-                                            <button className='btn btn-info btn-sm mr-2'>edit</button>
-                                        </Link>
-
-                                        <button onClick={() => handleDeletingBill(billInfo._id)}
-                                            className='btn btn-error btn-sm'>delete</button>
-                                    </td>
-                                </tr>)
+                                bill?.map((billInfo) => <BillingTableRow key={billInfo._id} billInfo={billInfo} refetch={refetch}></BillingTableRow>)
                             }
 
                         </tbody>
