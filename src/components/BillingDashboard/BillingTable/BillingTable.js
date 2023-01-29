@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import Loading from '../../Loading/Loading';
 import AddBillingModal from '../AddBillingModal/AddBillingModal';
 
@@ -32,7 +33,6 @@ const BillingTable = () => {
 
     const handleAddProduct = data => {
         setLoading(true);
-
         if (data.filter === "name") {
             const filterName = allBillList?.filter(bill => bill.name === data.inputValue);
             setBill(filterName);
@@ -47,13 +47,32 @@ const BillingTable = () => {
             const filterPhone = allBillList?.filter(bill => bill.phone === data.inputValue);
             setBill(filterPhone);
             setLoading(false);
-        }
+        } 
+        // else {
+        //     console.log(data.filter, data.inputValue);
+        //     toast.error('Filter type are not matching with search field');
+        // }
 
     };
 
-    // console.log(bill);
-    // console.log(allBillList);
 
+    const handleDeletingBill = _id => {
+        const agree = window.confirm('Are you sure delete this bill !!!')
+        if (agree) {
+            fetch(`http://localhost:5000/delete-billing/${_id}`, {
+                method: "DELETE"
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.deletedCount > 0) {
+                        toast.success(`Deleted successfully`)
+                        refetch();
+                    }
+                })
+        }
+    };
+
+    
     if (isLoading || loading) {
         return <Loading></Loading>
     };
@@ -116,7 +135,9 @@ const BillingTable = () => {
                                     <td>{billInfo.amount}</td>
                                     <td>
                                         <button className='btn btn-info btn-sm mr-2'>edit</button>
-                                        <button className='btn btn-error btn-sm'>delete</button>
+                                        <button 
+                                          onClick={() => handleDeletingBill(billInfo._id)}
+                                        className='btn btn-error btn-sm'>delete</button>
                                     </td>
                                 </tr>)
                             }
@@ -148,7 +169,8 @@ const BillingTable = () => {
                                     <td>{billInfo.amount}</td>
                                     <td>
                                         <button className='btn btn-info btn-sm mr-2'>edit</button>
-                                        <button className='btn btn-error btn-sm'>delete</button>
+                                        <button onClick={() => handleDeletingBill(billInfo._id)}
+                                        className='btn btn-error btn-sm'>delete</button>
                                     </td>
                                 </tr>)
                             }
