@@ -5,13 +5,15 @@ import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 
 
 
-const AddBillingModal = ({ refetch, setModal }) => {
+const UpdateBilling = () => {
+    const { name, email, amount, date, phone } = useLoaderData();
     const [phoneNumberError, setPhoneNumberError] = useState('');
-    const [value, setValue] = React.useState(dayjs('2023-01-29'));
-
+    const [value, setValue] = React.useState(dayjs(date));
+    const navigate = useNavigate();
 
     const handleAddBill = e => {
         e.preventDefault()
@@ -30,7 +32,7 @@ const AddBillingModal = ({ refetch, setModal }) => {
             setPhoneNumberError('');
         }
 
-        const newBill = {
+        const updateBill = {
             name,
             email: emailLowercase,
             amount,
@@ -38,20 +40,20 @@ const AddBillingModal = ({ refetch, setModal }) => {
             date: value.$d
         };
 
-        fetch(`http://localhost:5000/add-billing`, {
-            method: "POST",
+        fetch(`http://localhost:5000/update-billing`, {
+            method: "PUT",
             headers: {
                 'content-type': "application/json"
             },
-            body: JSON.stringify(newBill)
+            body: JSON.stringify(updateBill)
         })
             .then(res => res.json())
             .then(data => {
-                // console.log("add new bill", data);
-                toast.success('Add a new bill successfully!');
-                refetch();
-                setModal('close');
-            })
+                // console.log("update a new bill", data);
+                toast.success('Update a new bill successfully!');
+                navigate('/billingTable');
+
+            });
 
 
     };
@@ -59,18 +61,15 @@ const AddBillingModal = ({ refetch, setModal }) => {
 
     return (
         <div>
-            <input type="checkbox" id="add-billing-modal" className="modal-toggle" />
-            <div className="modal">
-                <div className="modal-box relative">
-                    <label htmlFor="add-billing-modal" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                    <h3 className="text-xl text-center font-bold ">Add A New Bill</h3>
-
+            <div className='pr-1 py-10 md:w-96 mx-auto '>
+                <div className='md:w-96 p-7 shadow-2xl mx-2 rounded-md'>
+                    <h2 className="text-3xl text-center font-semibold">Update A Bill</h2>
                     <form onSubmit={handleAddBill}
-                        className='grid grid-cols-1 gap-3 mt-5 '>
+                        className='grid grid-cols-1 gap-3 mt-5'>
 
-                        <input name='name' type="text" placeholder="full name" className="input w-full  input-bordered border-gray-400  font-semibold" required />
+                        <input name='name' defaultValue={name} type="text" placeholder="full name" className="input w-full  input-bordered border-gray-400  font-semibold" required />
 
-                        <input name='email' type="email" placeholder="Email Address" className="input w-full input-bordered border-gray-400 font-semibold lowercase" required />
+                        <input name='email' readOnly defaultValue={email} type="email" placeholder="Email Address" className="input w-full input-bordered border-gray-400 font-semibold lowercase hover:cursor-not-allowed" required />
 
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <Stack spacing={3}>
@@ -88,9 +87,9 @@ const AddBillingModal = ({ refetch, setModal }) => {
                             </Stack>
                         </LocalizationProvider>
 
-                        <input name='amount' type="number" placeholder="payable amount" className="input w-full input-bordered border-gray-400 font-semibold " required />
+                        <input name='amount' defaultValue={amount} type="number" placeholder="payable amount" className="input w-full input-bordered border-gray-400 font-semibold " required />
 
-                        <input name='phone' type="number" placeholder="enter phone number" className="input w-full input-bordered border-gray-400 font-semibold" required />
+                        <input name='phone' defaultValue={phone} type="number" placeholder="enter phone number" className="input w-full input-bordered border-gray-400 font-semibold" required />
                         <p className='text-red-500 mt-0'>{phoneNumberError}</p>
 
 
@@ -99,8 +98,8 @@ const AddBillingModal = ({ refetch, setModal }) => {
                     </form>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
-export default AddBillingModal;
+export default UpdateBilling;
