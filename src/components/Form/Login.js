@@ -13,8 +13,8 @@ const Login = () => {
     const { setUser } = useContext(AuthContext);
  
 
-    const location = useLocation();
-    const from = location?.state?.from?.pathname || '/';
+    // const location = useLocation();
+    // const from = location?.state?.from?.pathname || '/';
     const navigate = useNavigate();
 
 

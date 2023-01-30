@@ -7,17 +7,21 @@ import { AuthContext } from '../UseContext/AuthProvider/AuthProvider';
 
 
 const Navbar = () => {
-    const { user, setUser } = useContext(AuthContext);
+    const { user, setUser, paidTotal, setPaidTotal } = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
         const userEmail = localStorage.getItem('userEmail');
         setUser(userEmail);
-    }, [setUser])
+        const amount = localStorage.getItem('paidAmount');
+        setPaidTotal(amount)
+    }, [setUser, setPaidTotal]);
 
     const handleLogout = () => {
         localStorage.removeItem('billToken')
         localStorage.removeItem('userEmail')
+        localStorage.removeItem('paidAmount');
+        setPaidTotal(null);
         setUser(null);
         navigate('/');
 
@@ -63,6 +67,25 @@ const Navbar = () => {
                         >
                             Home
                         </NavLink>
+                    </li>
+                    <li>
+                        { paidTotal ? 
+                        <p
+                            aria-label="Paid Amount"
+                            title="Paid Amount"
+                            className="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-deep-purple-accent-400"
+                        >
+                           Paid Total: {paidTotal} 
+                        </p>
+                        :
+                        <p
+                            aria-label="Paid Amount"
+                            title="Paid Amount"
+                            className="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-deep-purple-accent-400"
+                        >
+                           Paid Total: 0 
+                        </p>
+                    }
                     </li>
                     <li>
                         {user ?
@@ -150,6 +173,27 @@ const Navbar = () => {
                                                 Home
                                             </NavLink>
                                         </li>
+
+                                        <li>
+                        { paidTotal ? 
+                        
+                        <p
+                            aria-label="Paid Amount"
+                            title="Paid Amount"
+                            className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+                        >
+                           Paid Total: {paidTotal} 
+                        </p>
+                        :
+                        <p
+                            aria-label="Paid Amount"
+                            title="Paid Amount"
+                            className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
+                        >
+                           Paid Total: 0 
+                        </p>
+                    }
+                    </li>
                                         {user ?
                                             <li>
                                                 <button onClick={handleLogout}

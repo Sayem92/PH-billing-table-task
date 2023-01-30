@@ -1,13 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Loading from '../../Loading/Loading';
+import { AuthContext } from '../../UseContext/AuthProvider/AuthProvider';
 import AddBillingModal from '../AddBillingModal/AddBillingModal';
 import BillingTableRow from './BillingTableRow';
 
 
 const BillingTable = () => {
+    const { setPaidTotal } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [bill, setBill] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -28,6 +30,15 @@ const BillingTable = () => {
             }
         }
     })
+
+    const sum = allBillList.reduce((accumulator, object) => {
+        const amountNumber = parseInt(object.amount);
+        const totalAmount = accumulator + amountNumber
+        setPaidTotal(totalAmount);
+        localStorage.setItem('paidAmount', totalAmount);
+        return totalAmount;
+    }, 0);
+
 
 
     const handleAddProduct = data => {
