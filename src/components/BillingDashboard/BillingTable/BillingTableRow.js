@@ -2,7 +2,7 @@ import React from 'react';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
-const BillingTableRow = ({ billInfo, refetch }) => {
+const BillingTableRow = ({ billInfo, refetch, index }) => {
 
     const handleDeletingBill = _id => {
         const agree = window.confirm('Are you sure delete this bill !!!')
@@ -23,6 +23,7 @@ const BillingTableRow = ({ billInfo, refetch }) => {
 
     return (
         <tr key={billInfo._id} className='hover'>
+            <td>{index + 1}</td>
             <td>{billInfo._id}</td>
             <td>{billInfo.name}</td>
             <td>{billInfo.email}</td>

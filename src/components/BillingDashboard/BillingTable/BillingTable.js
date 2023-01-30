@@ -21,7 +21,11 @@ const BillingTable = () => {
         queryKey: [''],
         queryFn: async () => {
             try {
-                const res = await fetch(`http://localhost:5000/billing-list`)
+                const res = await fetch(`http://localhost:5000/billing-list`, {
+                    headers: {
+                        authorization: `bearer ${localStorage.getItem('billToken')}`
+                    }
+                })
                 const data = await res.json();
                 return data;
             }
@@ -31,7 +35,7 @@ const BillingTable = () => {
         }
     })
 
-    const sum = allBillList.reduce((accumulator, object) => {
+    const sum = allBillList?.reduce((accumulator, object) => {
         const amountNumber = parseInt(object.amount);
         const totalAmount = accumulator + amountNumber
         setPaidTotal(totalAmount);
@@ -109,6 +113,7 @@ const BillingTable = () => {
                     <table className="table w-full">
                         <thead>
                             <tr>
+                                <th>SL</th>
                                 <th>Billing ID</th>
                                 <th>Full Name</th>
                                 <th>Email</th>
@@ -120,8 +125,12 @@ const BillingTable = () => {
                         <tbody>
 
                             {
-                                allBillList?.map((billInfo) =>
-                                    <BillingTableRow key={billInfo._id} billInfo={billInfo} refetch={refetch}></BillingTableRow>)
+                                allBillList?.map((billInfo, index) =>
+                                    <BillingTableRow 
+                                    key={billInfo._id} 
+                                    billInfo={billInfo} 
+                                    index={index} 
+                                    refetch={refetch}></BillingTableRow>)
                             }
 
                         </tbody>
@@ -132,6 +141,7 @@ const BillingTable = () => {
                     <table className="table w-full">
                         <thead>
                             <tr>
+                                <th>SL</th>
                                 <th>Billing ID</th>
                                 <th>Full Name</th>
                                 <th>Email</th>
@@ -143,7 +153,11 @@ const BillingTable = () => {
                         <tbody>
 
                             {
-                                bill?.map((billInfo) => <BillingTableRow key={billInfo._id} billInfo={billInfo} refetch={refetch}></BillingTableRow>)
+                                bill?.map((billInfo, index) => <BillingTableRow 
+                                key={billInfo._id}
+                                index={index} 
+                                billInfo={billInfo}
+                                refetch={refetch}></BillingTableRow>)
                             }
 
                         </tbody>

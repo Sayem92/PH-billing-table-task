@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import BillingTable from "../BillingDashboard/BillingTable/BillingTable";
 import UpdateBilling from "../BillingDashboard/UpdateBilling/UpdateBilling";
+import ErrorPage from "../ErrorPage/ErrorPage";
 import Login from "../Form/Login";
 import Register from "../Form/Register";
 import Home from "../Home/Home";
@@ -10,6 +11,7 @@ export const routes = createBrowserRouter([{
 
     path: '/',
     element: <Main></Main>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
         {
             path: '/',
