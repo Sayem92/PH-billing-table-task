@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import Loading from '../Loading/Loading';
+import { AuthContext } from '../UseContext/AuthProvider/AuthProvider';
 
 
 const Register = () => {
+    const { setUser } = useContext(AuthContext);
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const [signUpError, setSignUpError] = useState('');
     const [signUpLoading, setSignUpLoading] = useState(false);
-    const imageHostKey = process.env.REACT_APP_IMGBB_key;
 
+    const imageHostKey = process.env.REACT_APP_IMGBB_key;
     const navigate = useNavigate()
 
 
@@ -39,15 +41,15 @@ const Register = () => {
                     }
 
                     fetch(`http://localhost:5000/registration`, {
-                        method: 'POST',
+                        method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(newUser)
 
                     })
                         .then(response => response.json())
-                        .then(data => {
+                        .then(dataSuccess => {
                             // console.log(data)
-                            if (data.matchedCount) {
+                            if (dataSuccess.matchedCount) {
                                 toast.error("Already have an account")
                                 setSignUpLoading(false);
                                 setSignUpError('Already have an account')
@@ -55,9 +57,27 @@ const Register = () => {
 
                             }
                             else {
-                                toast.success("User created account successfully")
-                                setSignUpLoading(false)
-                                navigate('/billingTable')
+
+                                fetch(`http://localhost:5000/jwt?email=${data.email}`)
+                                    .then(res => res.json())
+                                    .then(datas => {
+                                        // console.log(datas);
+                                        console.log("get token");
+                                        if (datas.accessToken) {
+                                            localStorage.setItem('billToken', datas.accessToken)
+
+                                            // save create user email
+                                            setUser(data.email)
+                                            localStorage.setItem('userEmail', data.email);
+
+                                            toast.success("User created account successfully")
+                                            setSignUpLoading(false);
+                                            navigate('/billingTable')
+
+                                        }
+                                    })
+
+
 
                             }
                         })

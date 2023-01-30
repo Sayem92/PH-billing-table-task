@@ -10,7 +10,7 @@ const Login = () => {
     const { register, reset, formState: { errors }, handleSubmit } = useForm();
     const [loginError, setLoginError] = useState('');
     const [loginLoading, setLoginLoading] = useState(false);
-    const { user, setUser } = useContext(AuthContext);
+    const { setUser } = useContext(AuthContext);
  
 
     const location = useLocation();
@@ -41,7 +41,7 @@ const Login = () => {
                                 console.log("get token");
                                 if (data.accessToken) {
                                     localStorage.setItem('billToken', data.accessToken)
-                                    
+
                                     // save login user email
                                     setUser(login[0]?.email)
                                     localStorage.setItem('userEmail', login[0]?.email);
