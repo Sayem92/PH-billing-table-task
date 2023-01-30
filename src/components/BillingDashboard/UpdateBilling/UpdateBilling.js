@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { Link, useLoaderData, useNavigate } from 'react-router-dom';
 
 
 
@@ -93,8 +93,13 @@ const UpdateBilling = () => {
                         <p className='text-red-500 mt-0'>{phoneNumberError}</p>
 
 
-                        <input type="submit" placeholder='Submit' className='btn btn-success w-full ' />
+                        <div className='flex justify-between'>
+                            <input type="submit" placeholder='Submit' className='btn btn-success' />
 
+                            <Link to='/billingTable'>
+                                <button className='btn bg-yellow-300 hover:bg-yellow-400 border-none text-black '>Back</button>
+                            </Link>
+                        </div>
                     </form>
                 </div>
             </div>

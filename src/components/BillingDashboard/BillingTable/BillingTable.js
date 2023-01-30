@@ -35,7 +35,7 @@ const BillingTable = () => {
         }
     })
 
-    const sum = allBillList?.reduce((accumulator, object) => {
+    allBillList?.reduce((accumulator, object) => {
         const amountNumber = parseInt(object.amount);
         const totalAmount = accumulator + amountNumber
         setPaidTotal(totalAmount);
@@ -126,11 +126,11 @@ const BillingTable = () => {
 
                             {
                                 allBillList?.map((billInfo, index) =>
-                                    <BillingTableRow 
-                                    key={billInfo._id} 
-                                    billInfo={billInfo} 
-                                    index={index} 
-                                    refetch={refetch}></BillingTableRow>)
+                                    <BillingTableRow
+                                        key={billInfo._id}
+                                        billInfo={billInfo}
+                                        index={index}
+                                        refetch={refetch}></BillingTableRow>)
                             }
 
                         </tbody>
@@ -153,11 +153,11 @@ const BillingTable = () => {
                         <tbody>
 
                             {
-                                bill?.map((billInfo, index) => <BillingTableRow 
-                                key={billInfo._id}
-                                index={index} 
-                                billInfo={billInfo}
-                                refetch={refetch}></BillingTableRow>)
+                                bill?.map((billInfo, index) => <BillingTableRow
+                                    key={billInfo._id}
+                                    index={index}
+                                    billInfo={billInfo}
+                                    refetch={refetch}></BillingTableRow>)
                             }
 
                         </tbody>
