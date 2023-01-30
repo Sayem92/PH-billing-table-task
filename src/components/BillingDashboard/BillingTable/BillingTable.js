@@ -6,7 +6,6 @@ import Loading from '../../Loading/Loading';
 import { AuthContext } from '../../UseContext/AuthProvider/AuthProvider';
 import AddBillingModal from '../AddBillingModal/AddBillingModal';
 import BillingTableRow from './BillingTableRow';
-import './BillingTable.css';
 
 
 const BillingTable = () => {
@@ -18,7 +17,6 @@ const BillingTable = () => {
 
     const [count, setCount] = useState(0)
     const [page, setPage] = useState(0)
-    // const [size, setSize] = useState(10)
 
 
 
