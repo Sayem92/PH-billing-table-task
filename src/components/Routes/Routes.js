@@ -35,7 +35,7 @@ export const routes = createBrowserRouter([{
         },
         {
             path: '/update-billing/:id',
-            loader: ({ params }) => fetch(`http://localhost:5000/update-billing/${params.id}`),
+            loader: ({ params }) => fetch(`https://billing-page-task-server.vercel.app/update-billing/${params.id}`),
             element: <UpdateBilling></UpdateBilling>
         },
     ]

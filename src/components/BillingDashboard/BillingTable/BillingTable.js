@@ -18,7 +18,7 @@ const BillingTable = () => {
 
     const [count, setCount] = useState(0)
     const [page, setPage] = useState(0)
-    const [size, setSize] = useState(10)
+    // const [size, setSize] = useState(10)
 
 
 
@@ -26,7 +26,7 @@ const BillingTable = () => {
         queryKey: [''],
         queryFn: async () => {
             try {
-                const res = await fetch(`http://localhost:5000/billing-list?page=${page}&size=${size}`, {
+                const res = await fetch(`https://billing-page-task-server.vercel.app/billing-list?page=${page}&size=${10}`, {
                     headers: {
                         authorization: `bearer ${localStorage.getItem('billToken')}`
                     }
@@ -41,9 +41,9 @@ const BillingTable = () => {
         }
     })
 
-    const pages = Math.ceil(count / size);
+    const pages = Math.ceil(count / 10);
 
- 
+
     if (page === 0 || page === 1 || page === 2) {
         refetch();
     }
@@ -189,14 +189,14 @@ const BillingTable = () => {
 
                     {
                         [...Array(pages).keys()].map(number =>
-                            <button key={number}  onClick={() => setPage(number)}
-                            type="button"  className={page === number ? "inline-flex items-center justify-center w-8 h-8 text-sm font-semibold border rounded shadow-md bg-gray-900 text-white border-violet-400" 
-                            
-                            :
-                            
-                            '"inline-flex items-center justify-center w-8 h-8 text-sm font-semibold border rounded shadow-md text-black  border-violet-400"'}
+                            <button key={number} onClick={() => setPage(number)}
+                                type="button" className={page === number ? "inline-flex items-center justify-center w-8 h-8 text-sm font-semibold border rounded shadow-md bg-gray-900 text-white border-violet-400"
 
-                           >{number + 1}</button>
+                                    :
+
+                                    '"inline-flex items-center justify-center w-8 h-8 text-sm font-semibold border rounded shadow-md text-black  border-violet-400"'}
+
+                            >{number + 1}</button>
                         )
                     }
 

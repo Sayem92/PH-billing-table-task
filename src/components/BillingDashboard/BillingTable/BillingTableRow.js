@@ -7,7 +7,7 @@ const BillingTableRow = ({ billInfo, refetch, index }) => {
     const handleDeletingBill = _id => {
         const agree = window.confirm('Are you sure delete this bill !!!')
         if (agree) {
-            fetch(`http://localhost:5000/delete-billing/${_id}`, {
+            fetch(`https://billing-page-task-server.vercel.app/delete-billing/${_id}`, {
                 method: "DELETE"
             })
                 .then(res => res.json())

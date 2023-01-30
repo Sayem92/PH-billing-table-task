@@ -40,7 +40,7 @@ const Register = () => {
                         password: data.password
                     }
 
-                    fetch(`http://localhost:5000/registration`, {
+                    fetch(`https://billing-page-task-server.vercel.app/registration`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(newUser)
@@ -58,7 +58,7 @@ const Register = () => {
                             }
                             else {
 
-                                fetch(`http://localhost:5000/jwt?email=${data.email}`)
+                                fetch(`https://billing-page-task-server.vercel.app/jwt?email=${data.email}`)
                                     .then(res => res.json())
                                     .then(datas => {
                                         // console.log(datas);

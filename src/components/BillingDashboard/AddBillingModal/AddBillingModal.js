@@ -38,7 +38,7 @@ const AddBillingModal = ({ refetch, setModal }) => {
             date: value.$d
         };
 
-        fetch(`http://localhost:5000/add-billing`, {
+        fetch(`https://billing-page-task-server.vercel.app/add-billing`, {
             method: "POST",
             headers: {
                 'content-type': "application/json"

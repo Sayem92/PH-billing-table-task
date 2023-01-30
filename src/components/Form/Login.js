@@ -11,7 +11,7 @@ const Login = () => {
     const [loginError, setLoginError] = useState('');
     const [loginLoading, setLoginLoading] = useState(false);
     const { setUser } = useContext(AuthContext);
- 
+
 
     // const location = useLocation();
     // const from = location?.state?.from?.pathname || '/';
@@ -24,7 +24,7 @@ const Login = () => {
     const handleLogin = inputData => {
         setLoginLoading(true)
 
-        fetch(`http://localhost:5000/login`)
+        fetch(`https://billing-page-task-server.vercel.app/login`)
             .then(response => response.json())
             .then(data => {
                 // console.log(data)
@@ -35,7 +35,7 @@ const Login = () => {
 
 
                     if (login[0]?.email) {
-                        fetch(`http://localhost:5000/jwt?email=${login[0].email}`)
+                        fetch(`https://billing-page-task-server.vercel.app/jwt?email=${login[0].email}`)
                             .then(res => res.json())
                             .then(data => {
                                 console.log("get token");

@@ -40,7 +40,7 @@ const UpdateBilling = () => {
             date: value.$d
         };
 
-        fetch(`http://localhost:5000/update-billing`, {
+        fetch(`https://billing-page-task-server.vercel.app/update-billing`, {
             method: "PUT",
             headers: {
                 'content-type': "application/json"
