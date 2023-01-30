@@ -1,6 +1,7 @@
 import React from 'react';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import SmallLoading from '../../Loading/SmallLoading';
 
 const BillingTableRow = ({ billInfo, refetch, index }) => {
 
@@ -24,7 +25,14 @@ const BillingTableRow = ({ billInfo, refetch, index }) => {
     return (
         <tr key={billInfo._id} className='hover'>
             <td>{index + 1}</td>
-            <td>{billInfo._id}</td>
+            <td>
+                {
+                    billInfo._id ? billInfo._id
+                        :
+                        <SmallLoading></SmallLoading>
+
+                }
+            </td>
             <td>{billInfo.name}</td>
             <td>{billInfo.email}</td>
             <td>{billInfo.phone}</td>
