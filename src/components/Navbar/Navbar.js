@@ -1,12 +1,30 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useContext } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../assets/billing-logo.jpg'
+import { AuthContext } from '../UseContext/AuthProvider/AuthProvider';
+
 
 
 const Navbar = () => {
+    const { user, setUser } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const userEmail = localStorage.getItem('userEmail');
+        setUser(userEmail);
+    }, [setUser])
+
+    const handleLogout = () => {
+        localStorage.removeItem('billToken')
+        localStorage.removeItem('userEmail')
+        setUser(null);
+        navigate('/');
+
+    };
+
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
     let activeStyle = {
         textDecoration: "underline",
         color: 'yellow'
@@ -47,11 +65,15 @@ const Navbar = () => {
                         </NavLink>
                     </li>
                     <li>
-
-                        <NavLink to='/login'>
-                            <button className='btn bg-yellow-300 hover:bg-yellow-400 border-none text-black rounded-3xl'>Login</button>
-                        </NavLink>
-
+                        {user ?
+                            <button
+                                onClick={handleLogout}
+                                className='btn bg-yellow-300 hover:bg-yellow-400 border-none text-black rounded-3xl'>Log out</button>
+                            :
+                            <NavLink to='/login'>
+                                <button className='btn bg-yellow-300 hover:bg-yellow-400 border-none text-black rounded-3xl'>Login</button>
+                            </NavLink>
+                        }
 
 
                     </li>
@@ -128,15 +150,18 @@ const Navbar = () => {
                                                 Home
                                             </NavLink>
                                         </li>
-
-
-                                        <li>
-                                            <NavLink to='/login'>
-                                                <button className='btn bg-yellow-300 hover:bg-yellow-400 border-none text-black rounded-3xl'>Login</button>
-                                            </NavLink>
-
-
-                                        </li>
+                                        {user ?
+                                            <li>
+                                                <button onClick={handleLogout}
+                                                    className='btn bg-yellow-300 hover:bg-yellow-400 border-none text-black rounded-3xl'>Log out</button>
+                                            </li>
+                                            :
+                                            <li>
+                                                <NavLink to='/login'>
+                                                    <button className='btn bg-yellow-300 hover:bg-yellow-400 border-none text-black rounded-3xl'>Login</button>
+                                                </NavLink>
+                                            </li>
+                                        }
                                     </ul>
                                 </nav>
                             </div>

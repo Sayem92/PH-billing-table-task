@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 const BillingTableRow = ({ billInfo, refetch }) => {
 
-
     const handleDeletingBill = _id => {
         const agree = window.confirm('Are you sure delete this bill !!!')
         if (agree) {

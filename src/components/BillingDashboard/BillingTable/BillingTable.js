@@ -2,8 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-import { Link } from 'react-router-dom';
 import Loading from '../../Loading/Loading';
 import AddBillingModal from '../AddBillingModal/AddBillingModal';
 import BillingTableRow from './BillingTableRow';
@@ -32,7 +30,6 @@ const BillingTable = () => {
     })
 
 
-
     const handleAddProduct = data => {
         setLoading(true);
         if (data.filter === "name") {
@@ -57,22 +54,6 @@ const BillingTable = () => {
 
     };
 
-
-    // const handleDeletingBill = _id => {
-    //     const agree = window.confirm('Are you sure delete this bill !!!')
-    //     if (agree) {
-    //         fetch(`http://localhost:5000/delete-billing/${_id}`, {
-    //             method: "DELETE"
-    //         })
-    //             .then(res => res.json())
-    //             .then(data => {
-    //                 if (data.deletedCount > 0) {
-    //                     toast.success(`Deleted successfully`)
-    //                     refetch();
-    //                 }
-    //             })
-    //     }
-    // };
 
     if (isLoading || loading) {
         return <Loading></Loading>
@@ -128,8 +109,8 @@ const BillingTable = () => {
                         <tbody>
 
                             {
-                                allBillList?.map((billInfo) => 
-                                <BillingTableRow key={billInfo._id} billInfo={billInfo} refetch={refetch}></BillingTableRow>)
+                                allBillList?.map((billInfo) =>
+                                    <BillingTableRow key={billInfo._id} billInfo={billInfo} refetch={refetch}></BillingTableRow>)
                             }
 
                         </tbody>

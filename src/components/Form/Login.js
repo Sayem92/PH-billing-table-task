@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation, } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import Loading from '../Loading/Loading';
+import { AuthContext } from '../UseContext/AuthProvider/AuthProvider';
 
 
 const Login = () => {
     const { register, reset, formState: { errors }, handleSubmit } = useForm();
     const [loginError, setLoginError] = useState('');
     const [loginLoading, setLoginLoading] = useState(false);
+    const { user, setUser } = useContext(AuthContext);
+ 
+
+    const location = useLocation();
+    const from = location?.state?.from?.pathname || '/';
     const navigate = useNavigate();
+
+
 
 
     // user login-------------------
@@ -20,12 +28,31 @@ const Login = () => {
             .then(response => response.json())
             .then(data => {
                 // console.log(data)
-                const login = data?.filter(user => user.email === inputData.email);
+                const login = data?.filter(user => user.email === inputData?.email);
 
-                if (login[0].email === inputData.email && login[0].password === inputData.password) {
+                if (login[0]?.email === inputData.email && login[0].password === inputData.password) {
                     toast.success("User login successfully")
-                    setLoginLoading(false);
-                    navigate('/billingTable');
+
+
+                    if (login[0]?.email) {
+                        fetch(`http://localhost:5000/jwt?email=${login[0].email}`)
+                            .then(res => res.json())
+                            .then(data => {
+                                console.log("get token");
+                                if (data.accessToken) {
+                                    localStorage.setItem('billToken', data.accessToken)
+                                    
+                                    // save login user email
+                                    setUser(login[0]?.email)
+                                    localStorage.setItem('userEmail', login[0]?.email);
+
+                                    setLoginLoading(false);
+                                    navigate('/billingTable');
+                                    // navigate(from, { replace: true })
+                                }
+                            })
+                    }
+
                 }
                 else {
                     toast.error("Your email and password are not match. Try again!!!");
@@ -41,7 +68,7 @@ const Login = () => {
     };
 
 
-    if(loginLoading){
+    if (loginLoading) {
         return <Loading></Loading>
     };
 
