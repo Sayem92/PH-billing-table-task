@@ -1,0 +1,29 @@
+.pagination {
+    /* margin-left: 300px; */
+    margin-bottom: 50px;
+}
+
+.box {
+    background-color: chartreuse;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 45px;
+}
+
+/* .pagination button{
+    margin-right: 10px; 
+} */
+.pagination .selected {
+    background-color: goldenrod;
+    border: gold;
+    font-weight: bold;
+    padding: 16px;
+    border-radius: 5px;
+}
+
+@media screen and (max-width: 1100px) {
+    .products-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}

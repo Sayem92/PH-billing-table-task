@@ -6,6 +6,7 @@ import Loading from '../../Loading/Loading';
 import { AuthContext } from '../../UseContext/AuthProvider/AuthProvider';
 import AddBillingModal from '../AddBillingModal/AddBillingModal';
 import BillingTableRow from './BillingTableRow';
+import './BillingTable.css';
 
 
 const BillingTable = () => {
@@ -15,25 +16,38 @@ const BillingTable = () => {
     const [loading, setLoading] = useState(false);
     const [modal, setModal] = useState(null);
 
+    const [count, setCount] = useState(0)
+    const [page, setPage] = useState(0)
+    const [size, setSize] = useState(10)
+
 
 
     const { data: allBillList = [], isLoading, refetch } = useQuery({
         queryKey: [''],
         queryFn: async () => {
             try {
-                const res = await fetch(`http://localhost:5000/billing-list`, {
+                const res = await fetch(`http://localhost:5000/billing-list?page=${page}&size=${size}`, {
                     headers: {
                         authorization: `bearer ${localStorage.getItem('billToken')}`
                     }
                 })
                 const data = await res.json();
-                return data;
+                setCount(data.count)
+                return data.bills;
             }
             catch (err) {
                 console.log(err);
             }
         }
     })
+
+    const pages = Math.ceil(count / size);
+
+ 
+    if (page === 0 || page === 1 || page === 2) {
+        refetch();
+    }
+
 
     allBillList?.reduce((accumulator, object) => {
         const amountNumber = parseInt(object.amount);
@@ -163,8 +177,37 @@ const BillingTable = () => {
                         </tbody>
                     </table>
                 </div>
-
             }
+
+            <div className="mt-14">
+                <div className="flex justify-center space-x-3 text-white">
+                    <button title="previous" type="button" className="inline-flex items-center justify-center w-8 h-8 py-0 border rounded-md shadow-md bg-gray-900 border-gray-800">
+                        <svg viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="w-4">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+
+                    {
+                        [...Array(pages).keys()].map(number =>
+                            <button key={number}  onClick={() => setPage(number)}
+                            type="button"  className={page === number ? "inline-flex items-center justify-center w-8 h-8 text-sm font-semibold border rounded shadow-md bg-gray-900 text-white border-violet-400" 
+                            
+                            :
+                            
+                            '"inline-flex items-center justify-center w-8 h-8 text-sm font-semibold border rounded shadow-md text-black  border-violet-400"'}
+
+                           >{number + 1}</button>
+                        )
+                    }
+
+                    <button title="next" type="button" className="inline-flex items-center justify-center w-8 h-8 py-0 border rounded-md shadow-md bg-gray-900 border-gray-800">
+                        <svg viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="w-4">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
 
             {
                 modal === 'open' && <AddBillingModal refetch={refetch} setModal={setModal}></AddBillingModal>
